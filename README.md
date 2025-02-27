@@ -16,16 +16,14 @@
 - src/utils/utils.ts — файл с утилитами
 
 ## Архитектура приложения MVP (Model-View-Presenter)
-### Классы
-
-#### Класс Api предназначен для взаимодействия с сервером
-##### Методы:
+### Класс Api предназначен для взаимодействия с сервером
+#### Методы:
 - protected handleResponse(response: Response): Promise<object> - Обработка данных с back-end
 - get(uri: string) - Получение части url
 - post(uri: string, data: object, method: ApiPostMethods = 'POST') - Отправка данных на back-end
 
-#### Класс EventEmitter предназначен для обработки событий *наследуется от IEvents*
-##### Методы:
+### Класс EventEmitter предназначен для обработки событий *наследуется от IEvents*
+#### Методы:
 - on<T extends object>(eventName: EventName, callback: (event: T) => void) - Установка обработчика на событие
 - off(eventName: EventName, callback: Subscriber) - Сброс обработчика с события
 - emit<T extends object>(eventName: string, data?: T) - Инициализация события с данными
@@ -33,12 +31,12 @@
 - offAll()- Сбросить все обработчики
 - trigger<T extends object>(eventName: string, context?: Partial<T>) - Сделать коллбек триггер, генерирующий событие при вызове 
 
-#### Класс ModelApi предназначен для отправки/получения данных с сервера *наследуется от Api*
-##### Методы:
+### Класс ModelApi предназначен для отправки/получения данных с сервера *наследуется от Api*
+#### Методы:
 - getProductList - Получение каталога продуктов с back-end
 
-#### Класс ModelShoppingCart предназначен для хранения данных полученных от пользователя
-##### Методы:
+### Класс ModelShoppingCart предназначен для хранения данных полученных от пользователя
+#### Методы:
 - getAllProducts - Получение всех товаров в корзине
 - getProductPrice - Получение стоимости товара
 - getTotalAmount - Суммирование стоимости всех товара в корзине
@@ -46,12 +44,12 @@
 - deleteProductToShoppingCart - Удаление товара из корзины
 - clearShoppingCart - Очистка данных корзины
 
-#### Класс ModelProductItem предназначен для хранения данных товара полученных с сервера
-##### Методы:
+### Класс ModelProductItem предназначен для хранения данных товара полученных с сервера
+#### Методы:
 - getProductDetails - Получение данных товара
 
-#### Класс ModelCustomer предназначен для хранения данных пользователя
-##### Методы:
+### Класс ModelCustomer предназначен для хранения данных пользователя
+#### Методы:
 - setCustomerData - Установка данных пользователяЁ
 - validateCustomerData - Проверка данных пользователя
 - getOrder - Получение данных заказа
