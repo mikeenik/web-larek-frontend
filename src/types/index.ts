@@ -1,19 +1,8 @@
-//тип категории товара
-type Category = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
-//тип способа оплаты
-type paymentMethod = 'card'| 'cash'
-//тип для методо api
-type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+export type Category = 'софт-скил' | 'другое' | 'дополнительное' | 'кнопка' | 'хард-скил';
+export type PaymentMethod = 'card' | 'cash';
+export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
-//Интерфей Api
-interface IApi {
-    baseUrl: string;
-    get<T>(uri: string): Promise<T>;
-    post<T>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
-  };
-
-//Интерфейс карточки товара
-interface IProductItem {
+export interface IProductItem {
     id: string;
     description: string;
     image: string;
@@ -22,28 +11,30 @@ interface IProductItem {
     price: number;
 }
 
-//Интерфейс каталога товаров
-interface IProductsList {
+export interface IProductsList {
     productsList: IProductItem[];
 }
 
-//Интерфейс для корзины
-interface IShoppingCart {
+export interface IShoppingCart {
     items: IProductItem[];
     total: number;
 }
 
-//Интерфейс для заказа
-interface IOrder {
+export interface IOrder {
     items: IProductItem[];
-	payment: paymentMethod;
-	address: string;
-	email: string;
-	phone: string;
+    payment: PaymentMethod;
+    address: string;
+    email: string;
+    phone: string;
 }
 
-//Интерфейс успешного заказа
-interface IOrderSuccess {
+export interface IOrderSuccess {
     id: string;
     total: number;
-  };
+}
+
+export interface IApi {
+    baseUrl: string;
+    get<T>(uri: string): Promise<T>;
+    post<T>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+}
