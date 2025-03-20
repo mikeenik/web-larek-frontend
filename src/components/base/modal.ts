@@ -1,36 +1,54 @@
-import { View } from "./view";
+import { View } from "../base/View";
+import { ensureElement } from "../../utils/utils";
+import { IEvents } from "../base/Events";
 
-export class Modal extends View {
-    private closeButton: HTMLButtonElement;
-    private contentContainer: HTMLElement;
+interface IModal{
+  content: HTMLElement;
+}
 
-    constructor(container: HTMLElement) {
-        super(container);
-        this.closeButton = this.container.querySelector(".modal__close") as HTMLButtonElement;
-        this.contentContainer = this.container.querySelector(".modal__content") as HTMLElement;
+export class Modal extends View<IModal> {
+  protected _closeButton: HTMLButtonElement;
+  protected _content: HTMLElement;
+  protected _handleEscClose: (this: IModal, ev: KeyboardEvent) => void;
 
-        this.initEventListeners();
+  constructor(container: HTMLElement, protected events: IEvents) {
+    super(container);
+
+    this._closeButton = ensureElement<HTMLButtonElement>('.modal__close', container);
+    this._content = ensureElement<HTMLElement>('.modal__content', container);
+    
+    this._handleEscClose = this.closeByEsc.bind(this);
+    this._closeButton.addEventListener('click', this.close.bind(this));
+    this.container.addEventListener('click', this.close.bind(this));
+    this._content.addEventListener('click', (event) => event.stopPropagation());
+  }
+
+  set content(value: HTMLElement) {
+    this._content.replaceChildren(value);
+  }
+
+  open() {
+    this.container.classList.add('modal_active');
+    document.addEventListener('keydown', this._handleEscClose);
+    this.events.emit('modal:open');
+  }
+
+  close() {
+    this.container.classList.remove('modal_active');
+    this.content = null;
+    document.removeEventListener('keydown', this._handleEscClose);
+    this.events.emit('modal:close');
+  }
+
+  closeByEsc(evt: KeyboardEvent){
+    if (evt.key === 'Escape') {
+      this.close()
     }
+  }
 
-    private initEventListeners(): void {
-        this.closeButton.addEventListener("click", () => this.close());
-        this.container.addEventListener("click", (event) => {
-            if (event.target === this.container) this.close();
-        });
-    }
-
-    public set content(content: HTMLElement) {
-        this.contentContainer.innerHTML = "";
-        this.contentContainer.appendChild(content);
-    }
-
-    public open(): void {
-        this.container.classList.add("modal_active");
-    }
-
-    public close(): void {
-        this.container.classList.remove("modal_active");
-    }
-
-    render(): void {}
+  render(data: IModal): HTMLElement {
+    super.render(data);
+    this.open();
+    return this.container;
+  }
 }

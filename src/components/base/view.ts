@@ -1,34 +1,34 @@
-export abstract class View {
-    protected container: HTMLElement;
+import { IEvents } from "./Events";
 
-    constructor(container: HTMLElement) {
-        this.container = container;
+export abstract class View<T> {
+  protected constructor(protected readonly container: HTMLElement) {}
+
+  protected setText(element: HTMLElement, value: unknown): void {
+    if (element) {
+      element.textContent = String(value);
     }
+  }
 
-    public show(): void {
-        this.container.classList.remove("hidden");
+  protected setImage(element: HTMLImageElement, src: string, alt?: string): void {
+    if (element) {
+      element.src = src;
+      if (alt) {
+          element.alt = alt;
+      }
+  }
+  }
+  
+  setDisabled(element: HTMLElement, state: boolean): void {
+    if(element) {
+      if (state) {
+        element.setAttribute('disabled', 'disabled');
+      } else element.removeAttribute('disabled');
     }
+  }
 
-    public hide(): void {
-        this.container.classList.add("hidden");
-    }
+  render(data?: Partial<T>): HTMLElement {
+    Object.assign(this as object, data ?? {});
+    return this.container;
+  }
 
-    protected setText(element: HTMLElement, text: string): void {
-        element.textContent = text;
-    }
-
-    protected setImage(element: HTMLImageElement, src: string, alt: string = ""): void {
-        element.src = src;
-        element.alt = alt;
-    }
-
-    protected setDisabled(element: HTMLButtonElement, disabled: boolean): void {
-        element.disabled = disabled;
-    }
-
-    protected toggleClass(element: HTMLElement, className: string, add: boolean): void {
-        element.classList.toggle(className, add);
-    }
-
-    public abstract render(...args: any[]): void;
 }

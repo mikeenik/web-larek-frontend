@@ -1,50 +1,59 @@
-import { View } from "./view";
+import { View } from "../base/View";
+import { IEvents } from "../base/Events";
+import { ensureElement } from "../../utils/utils";
 
-export abstract class Form extends View {
-    protected formElement: HTMLFormElement;
-    protected submitButton: HTMLButtonElement;
-    protected errorContainer: HTMLElement;
+interface IFormState {
+  valid: boolean;
+  errors: string[];
+}
 
-    constructor(container: HTMLElement) {
-        super(container);
-        this.formElement = container.querySelector("form") as HTMLFormElement;
-        this.submitButton = this.formElement.querySelector("button[type='submit']") as HTMLButtonElement;
-        this.errorContainer = this.formElement.querySelector(".form__errors") as HTMLElement;
+export class Form<T> extends View<IFormState> {
+  protected _submit: HTMLButtonElement;
+  protected _errors: HTMLElement;
 
-        this.initEventListeners();
-    }
+  constructor(protected container: HTMLFormElement, protected events: IEvents) {
+    super(container);
 
-    private initEventListeners(): void {
-        this.formElement.addEventListener("input", () => this.onInputChange());
-    }
+    this._submit = ensureElement<HTMLButtonElement>('button[type=submit]', this.container);
+    this._errors = ensureElement<HTMLElement>('.form__errors', this.container);
 
-    protected onInputChange(): void {
-        const isValid = this.formElement.checkValidity();
-        this.submitButton.disabled = !isValid;
-    }
+    this.container.addEventListener('input', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const field = target.name as keyof T;
+      const value = target.value;
+      this.onInputChange(field, value);
+    });
 
-    protected toggleButtonState(isValid: boolean): void {
-        if (isValid) {
-            this.submitButton.removeAttribute("disabled");
-        } else {
-            this.submitButton.setAttribute("disabled", "true");
-        }
-    }
+    this.container.addEventListener('submit', (evt: Event) => {
+      evt.preventDefault();
+      this.events.emit(`${this.container.name}:submit`);
+    });
+  }
 
-    public setErrors(errors: string[]): void {
-        this.errorContainer.innerHTML = "";
-        errors.forEach(error => {
-            const errorElement = document.createElement("p");
-            errorElement.textContent = error;
-            this.errorContainer.appendChild(errorElement);
-        });
-    }
+  protected onInputChange(field: keyof T, value: string) {
+    this.events.emit(`${this.container.name}.${String(field)}:change`, {
+      field,
+      value
+    });
+  }
 
-    public changeButtonState(isEnabled: boolean): void {
-        this.submitButton.disabled = !isEnabled;
-    }
+  set valid(value: boolean) {
+    this.setDisabled(this._submit, !value)
+  }
 
-    render(): void {
-        this.onInputChange();
-    }
+  set errors(value: string) {
+    this.setText(this._errors, value);
+  }
+
+  resetForm() {
+    this.container.reset()
+  }
+
+  render(state: Partial<T> & IFormState) {
+    const {valid, errors, ...inputs} = state;
+    super.render({valid, errors});
+    Object.assign(this, inputs);
+    return this.container;
+  }
+
 }

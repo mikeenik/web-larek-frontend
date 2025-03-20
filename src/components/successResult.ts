@@ -1,36 +1,30 @@
-import { View } from "../components/base/view";
+import { View } from "./base/View";
+import { ensureElement, formatNumber } from "../utils/utils";
 
-export class SuccessResult extends View {
-    private totalElement: HTMLElement;
-    private closeButton: HTMLElement;
+interface ISuccess {
+  total: number;
+}
 
-    constructor(container: HTMLElement) {
-        super(container);
+interface ISuccessActions {
+  onClick: () => void;
+}
 
-        this.totalElement = container.querySelector(".order-success__description") as HTMLElement;
-        this.closeButton = container.querySelector(".order-success__close") as HTMLElement;
+export class Success extends View<ISuccess> {
+  protected _closeButton: HTMLElement;
+  protected _total: HTMLElement;
 
-        this.initEventListeners();
+  constructor(container: HTMLElement, actions: ISuccessActions) {
+    super(container);
+
+    this._closeButton = ensureElement<HTMLElement>('.order-success__close', this.container);
+    this._total = ensureElement<HTMLElement>('.order-success__description', container);
+
+    if (actions?.onClick) {
+      this._closeButton.addEventListener('click', actions.onClick);
     }
+  }
 
-    private initEventListeners(): void {
-        this.closeButton.addEventListener("click", () => this.hide());
-    }
-
-    public set total(total: number) {
-        this.totalElement.textContent = `Списано ${total.toLocaleString()} синапсов`;
-    }
-
-    public open(): void {
-        this.show();
-    }
-
-    public close(): void {
-        this.hide();
-    }
-
-    public render(total: number): void {
-        this.total = total;
-        this.open();
-    }
+  set total(value: number) {
+    this.setText(this._total, `Cписано ${formatNumber(value)} синапсов`)
+  }
 }
