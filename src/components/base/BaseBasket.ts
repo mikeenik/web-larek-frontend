@@ -1,5 +1,5 @@
-import { View } from "./View";
-import { IEvents } from "./Events";
+import { View } from "./BaseView";
+import { IEvents } from "./BaseEvents";
 import { ensureElement, createElement, formatNumber } from "../../utils/utils";
 
 interface IBasket {

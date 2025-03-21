@@ -1,4 +1,4 @@
-import { IEvents } from "./Events";
+import { IEvents } from "./BaseEvents";
 
 export abstract class View<T> {
   protected constructor(protected readonly container: HTMLElement) {}

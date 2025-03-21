@@ -1,7 +1,7 @@
 
-import { Form } from "./base/Form";
+import { Form } from "./base/BaseForm";
 import { IOrderInfoForm } from "../types";
-import { IEvents } from "./base/Events";
+import { IEvents } from "./base/BaseEvents";
 import { ensureAllElements } from "../utils/utils";
 
 export class OrderInfoForm extends Form<IOrderInfoForm> {

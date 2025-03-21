@@ -1,4 +1,4 @@
-import { IEvents } from "./Events";
+import { IEvents } from "./BaseEvents";
 
 export abstract class Model<T> {
   constructor(data: Partial<T>, protected events: IEvents) {
