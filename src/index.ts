@@ -4,7 +4,7 @@ import { AppApi } from './components/AppApi';
 import { API_URL, CDN_URL } from './utils/constants';
 import { EventEmitter } from './components/base/Events';
 import { AppState } from './components/AppState';
-import { Page } from './components/Page';
+import { Page } from './components/MainPage';
 import { Modal } from './components/base/Modal';
 import { Card, CardPreview, CardBasket } from './components/Card';
 import { Basket } from './components/base/Basket';
@@ -12,7 +12,7 @@ import { ensureElement, cloneTemplate } from './utils/utils';
 import { IProduct, IOrderInfoForm, IContactForm, TFormErrors, IOrder } from './types';
 import { OrderInfoForm } from './components/OrderInfoForm';
 import { ContactsForm } from './components/ContactForm';
-import { Success } from './components/SuccessResult';
+import { Success } from './components/Success';
 
 const events = new EventEmitter();
 const api = new AppApi(CDN_URL, API_URL);
