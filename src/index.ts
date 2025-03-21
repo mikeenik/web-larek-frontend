@@ -2,12 +2,12 @@ import './scss/styles.scss';
 
 import { AppApi } from './components/AppApi';
 import { API_URL, CDN_URL } from './utils/constants';
-import { EventEmitter } from './components/base/BaseEvents';
+import { EventEmitter } from './components/base/Events';
 import { AppState } from './components/AppState';
-import { Page } from './components/MainPage';
-import { Modal } from './components/base/BaseModal';
+import { Page } from './components/Page';
+import { Modal } from './components/base/Modal';
 import { Card, CardPreview, CardBasket } from './components/Card';
-import { Basket } from './components/base/BaseBasket';
+import { Basket } from './components/base/Basket';
 import { ensureElement, cloneTemplate } from './utils/utils';
 import { IProduct, IOrderInfoForm, IContactForm, TFormErrors, IOrder } from './types';
 import { OrderInfoForm } from './components/OrderInfoForm';

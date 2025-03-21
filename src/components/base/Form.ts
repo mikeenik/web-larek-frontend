@@ -1,5 +1,5 @@
-import { View } from "./BaseView";
-import { IEvents } from "./BaseEvents";
+import { View } from "./View";
+import { IEvents } from "./Events";
 import { ensureElement } from "../../utils/utils";
 
 interface IFormState {
