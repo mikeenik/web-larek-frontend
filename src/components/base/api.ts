@@ -1,4 +1,3 @@
-//Все что связано с api
 export type ApiListResponse<Type> = {
     total: number,
     items: Type[]
