@@ -1,4 +1,4 @@
-import { View } from "./base/view";
+import { View } from "./base/View";
 import { ensureElement, formatNumber } from "../utils/utils";
 
 interface ISuccess {

@@ -1,5 +1,5 @@
-import { View } from './base/view';
-import { IEvents } from './base/events';
+import { View } from './base/View';
+import { IEvents } from './base/Events';
 import { ensureElement } from '../utils/utils';
 
 interface IPage {
