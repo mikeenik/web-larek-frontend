@@ -1,4 +1,4 @@
-import { Model } from "./base/Model";
+import { Model } from "./base/model";
 import { TFormErrors, IAppState, IProduct, IOrder, TBasketProduct, TCategory } from "../types";
 
 export class Product extends Model<IProduct> {

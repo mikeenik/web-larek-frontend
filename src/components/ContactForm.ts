@@ -1,6 +1,6 @@
 import { IContactForm } from "../types";
-import { Form } from "./base/Form";
-import { IEvents } from "./base/Events";
+import { Form } from "./base/form";
+import { IEvents } from "./base/events";
 
 export class ContactsForm extends Form<IContactForm> {
 

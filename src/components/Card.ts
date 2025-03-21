@@ -1,5 +1,5 @@
 
-import { View } from "./base/View";
+import { View } from "./base/view";
 import { TCategory } from "../types";
 import { ensureElement, bem, formatNumber } from "../utils/utils";
 
