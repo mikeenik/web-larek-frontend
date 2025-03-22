@@ -20,7 +20,7 @@ export class AppState extends Model<IAppState> {
 
   setProducts(items: IProduct[]): void {
     this.products = items.map(item => new Product(item, this.events));
-    this.emitChanges('products: changed', { products: this.products });
+    this.emitChanges('products:changed', { products: this.products });
   }
 
   setPreview(item: IProduct): void {
