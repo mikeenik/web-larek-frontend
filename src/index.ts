@@ -48,6 +48,14 @@ events.on('card:select', (item: IProduct) => {
 	appData.setPreview(item);
 });
 
+events.on('modal:open', () => {
+	page.locked = true;
+});
+
+events.on('modal:close', () => {
+	page.locked = false;
+});
+
 events.on('preview:changed', (item: IProduct) => {
 	const card = new CardPreview(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {

@@ -33,4 +33,13 @@ export class Page extends View<IPage> {
 	set gallery(items: HTMLElement[]) {
 		this._gallery.replaceChildren(...items);
 	}
+
+	set locked(value: boolean) {
+		if (value) {
+		  this._wrapper.classList.add('page__wrapper_locked');
+		} else {
+		  this._wrapper.classList.remove('page__wrapper_locked');
+		}
+	  }
 }
+
