@@ -15,7 +15,7 @@ export interface ICard {
   price: number;
 }
 
-export class Card<T = ICard> extends View<T> {
+export class ProductCard<T = ICard> extends View<T> {
   static allCategory: Record<TCategory, string> = {
     'софт-скил': 'soft',
     'хард-скил': 'hard',
@@ -62,11 +62,11 @@ export class Card<T = ICard> extends View<T> {
   }
 
   set category(value: TCategory) {
-    this._category.classList.add(bem('card', 'category', Card.allCategory[value]).name)
+    this._category.classList.add(bem('card', 'category', ProductCard.allCategory[value]).name)
     this.setText(this._category, value);
   }
 
-  set price(value: number) {
+  set price(value: number | null) {
     if (value === null) {
       this.setText(this._price, 'Бесценно');
     } else {
@@ -74,12 +74,9 @@ export class Card<T = ICard> extends View<T> {
     }
   }
 
-  get price(): number {
+  get price(): number | null {
     const price = parseInt(this._price.textContent);
-    if (isNaN(price)) {
-      return null
-    }
-    return price;
+    return isNaN(price) ? null : price;
   }
 }
 
@@ -88,7 +85,7 @@ type TCardPreview = {
   inBasket: boolean;
 }
 
-export class CardPreview extends Card<TCardPreview & ICard> {
+export class ProductCardPreview extends ProductCard<TCardPreview & ICard> {
   protected _description: HTMLElement;
   protected _button: HTMLButtonElement;
 
@@ -134,7 +131,7 @@ type TCardBasket = {
   price: number;
 }
 
-export class CardBasket extends Card<TCardBasket> {
+export class BasketCard extends ProductCard<TCardBasket> {
   protected _index: HTMLElement;
   protected _button: HTMLButtonElement;
 

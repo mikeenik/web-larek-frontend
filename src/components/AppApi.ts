@@ -8,7 +8,7 @@ interface IAppApi {
   postOrder(order: IOrder): Promise<TOrderResult>;
 }
 
-export class AppApi extends Api implements IAppApi {
+export class ProductApi extends Api implements IAppApi {
   readonly cdn: string;
 
   constructor(cdn: string, baseUrl: string, options?: RequestInit) {

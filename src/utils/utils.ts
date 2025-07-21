@@ -134,12 +134,32 @@ export function createElement<
     return element;
 }
 
-export function formatNumber(x: number) {
-    let price = String(x);
+/**
+ * Универсальная функция для создания карточки товара любого типа
+ * @param CardClass - класс карточки (Card, CardPreview, CardBasket)
+ * @param template - HTMLTemplateElement для карточки
+ * @param data - данные для карточки
+ * @param actions - обработчики событий (onClick и др.)
+ * @param blockName - строка для Card (например, 'card'), не требуется для CardPreview/CardBasket
+ * @returns экземпляр карточки
+ */
+export function createProductCard<T, C>(
+  CardClass: new (...args: any[]) => C,
+  template: HTMLTemplateElement,
+  data: T,
+  actions?: any,
+  blockName?: string
+): C {
+  const container = cloneTemplate(template);
+  // Card требует blockName, CardPreview/CardBasket — нет
+  const card = blockName
+    ? new CardClass(blockName, container, actions)
+    : new CardClass(container, actions);
+  (card as any).render(data);
+  return card;
+}
 
-    if (price.length > 4) {
-        price = Intl.NumberFormat('ru-RU').format(x);
-    }
-    
-    return price
+export function formatNumber(x: number | null) {
+  if (x === null) return '';
+  return x.toLocaleString('ru-RU');
 }

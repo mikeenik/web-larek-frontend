@@ -3,6 +3,10 @@ import { IEvents } from "./Events";
 export abstract class View<T> {
   protected constructor(protected readonly container: HTMLElement) {}
 
+  public get element(): HTMLElement {
+    return this.container;
+  }
+
   protected setText(element: HTMLElement, value: unknown): void {
     if (element) {
       element.textContent = String(value);

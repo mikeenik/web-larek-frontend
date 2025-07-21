@@ -11,7 +11,7 @@ export class Product extends Model<IProduct> {
   inBasket: boolean = false;
 }
 
-export class AppState extends Model<IAppState> {
+export class AppStore extends Model<IAppState> {
   products: IProduct[];
   basket: TBasketProduct[] = [];
   preview: string | null;
@@ -20,7 +20,7 @@ export class AppState extends Model<IAppState> {
 
   setProducts(items: IProduct[]): void {
     this.products = items.map(item => new Product(item, this.events));
-    this.emitChanges('products:changed', { products: this.products });
+    this.emitChanges('products: changed', { products: this.products });
   }
 
   setPreview(item: IProduct): void {
@@ -69,7 +69,7 @@ export class AppState extends Model<IAppState> {
 
   getTotal(): number {
     return this.basket.reduce((sum, item) => {
-      return sum = sum + item.price
+      return sum = sum + (item.price ?? 0)
     }, 0)
   }
 
@@ -102,5 +102,9 @@ export class AppState extends Model<IAppState> {
     this.formErrors = errors;
     this.events.emit('formErrors:change', this.formErrors);
     return Object.keys(errors).length === 0;
+  }
+
+  get basketTotal(): number {
+    return this.basket.reduce((sum, item) => sum + (item.price ?? 0), 0);
   }
 }

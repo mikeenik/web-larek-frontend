@@ -7,7 +7,7 @@ interface IBasket {
   total: number;
 }
 
-export class Basket extends View<IBasket> {
+export class BasketView extends View<IBasket> {
   protected _list: HTMLElement
   protected _total: HTMLElement
   protected _button: HTMLElement
